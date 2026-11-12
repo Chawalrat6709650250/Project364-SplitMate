@@ -1,7 +1,7 @@
+
 package com.example.splitmate;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,6 +22,20 @@ public class AddExpenseActivity extends AppCompatActivity {
     private int groupId;
     private String groupName;
     private String selectedDate;
+
+    private boolean isEditMode;
+    private int expenseId;
+
+    private ArrayList<String> members;
+
+    private final String[] categories = {
+            "Food",
+            "Transportation",
+            "Accommodation",
+            "Shopping",
+            "Entertainment",
+            "Other"
+    };
 
     private EditText etExpenseTitle;
     private EditText etExpenseAmount;
@@ -44,6 +58,10 @@ public class AddExpenseActivity extends AppCompatActivity {
         // Receive group information
         groupId = getIntent().getIntExtra("group_id", -1);
         groupName = getIntent().getStringExtra("group_name");
+
+        // Receive Edit Mode information
+        isEditMode = getIntent().getBooleanExtra("is_edit", false);
+        expenseId = getIntent().getIntExtra("expense_id", -1);
 
         if (groupId == -1) {
             Toast.makeText(this,
@@ -77,6 +95,12 @@ public class AddExpenseActivity extends AppCompatActivity {
         // Set today's date
         setTodayDate();
 
+        // Load existing expense in Edit Mode
+        if (isEditMode) {
+            loadExpenseForEdit();
+            btnSaveExpense.setText("Update Expense");
+        }
+
         // Button listeners
         btnBack.setOnClickListener(v -> finish());
 
@@ -87,15 +111,6 @@ public class AddExpenseActivity extends AppCompatActivity {
 
     // Setup category options
     private void setupCategorySpinner() {
-
-        String[] categories = {
-                "Food",
-                "Transportation",
-                "Accommodation",
-                "Shopping",
-                "Entertainment",
-                "Other"
-        };
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
@@ -113,8 +128,7 @@ public class AddExpenseActivity extends AppCompatActivity {
     // Load members from selected group
     private void setupMemberSpinner() {
 
-        ArrayList<String> members =
-                GroupStore.getMembers(groupId);
+        members = GroupStore.getMembers(groupId);
 
         ArrayList<String> memberOptions = new ArrayList<>();
 
@@ -148,6 +162,63 @@ public class AddExpenseActivity extends AppCompatActivity {
         selectedDate = dateFormat.format(calendar.getTime());
 
         tvExpenseDate.setText(selectedDate);
+    }
+
+    // Load existing expense data for editing
+    private void loadExpenseForEdit() {
+
+        Expense existingExpense = null;
+
+        ArrayList<Expense> expenseList =
+                ExpenseStore.getExpenses(groupId);
+
+        for (Expense expense : expenseList) {
+
+            if (expense.getExpenseId() == expenseId) {
+                existingExpense = expense;
+                break;
+            }
+        }
+
+        if (existingExpense == null) {
+
+            Toast.makeText(this,
+                    "Expense not found",
+                    Toast.LENGTH_SHORT).show();
+
+            finish();
+            return;
+        }
+
+        // Fill existing expense information
+        etExpenseTitle.setText(existingExpense.getTitle());
+
+        etExpenseAmount.setText(
+                String.valueOf(existingExpense.getAmount())
+        );
+
+        selectedDate = existingExpense.getExpenseDate();
+        tvExpenseDate.setText(selectedDate);
+
+        // Select existing category
+        for (int i = 0; i < categories.length; i++) {
+
+            if (categories[i].equals(
+                    existingExpense.getCategory())) {
+
+                spinnerCategory.setSelection(i);
+                break;
+            }
+        }
+
+        // Select existing payer
+        int memberPosition = members.indexOf(
+                existingExpense.getPaidBy()
+        );
+
+        if (memberPosition >= 0) {
+            spinnerPaidBy.setSelection(memberPosition + 1);
+        }
     }
 
     // Show date picker
@@ -198,18 +269,14 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         // Validate title
         if (title.isEmpty()) {
-            etExpenseTitle.setError(
-                    "Please enter expense name"
-            );
+            etExpenseTitle.setError("Please enter expense name");
             etExpenseTitle.requestFocus();
             return;
         }
 
         // Validate amount
         if (amountText.isEmpty()) {
-            etExpenseAmount.setError(
-                    "Please enter amount"
-            );
+            etExpenseAmount.setError("Please enter amount");
             etExpenseAmount.requestFocus();
             return;
         }
@@ -231,15 +298,18 @@ public class AddExpenseActivity extends AppCompatActivity {
             etExpenseAmount.setError(
                     "Amount must be greater than zero"
             );
+
             etExpenseAmount.requestFocus();
             return;
         }
 
         // Validate paid by
         if (spinnerPaidBy.getSelectedItemPosition() == 0) {
+
             Toast.makeText(this,
                     "Please select who paid",
                     Toast.LENGTH_SHORT).show();
+
             return;
         }
 
@@ -249,19 +319,41 @@ public class AddExpenseActivity extends AppCompatActivity {
         String paidBy =
                 spinnerPaidBy.getSelectedItem().toString();
 
-        // Save expense
-        ExpenseStore.addExpense(
-                groupId,
-                title,
-                amount,
-                paidBy,
-                category,
-                selectedDate
-        );
+        if (isEditMode) {
 
-        Toast.makeText(this,
-                "Expense saved successfully",
-                Toast.LENGTH_SHORT).show();
+            // Update existing expense
+            Expense updatedExpense = new Expense(
+                    expenseId,
+                    groupId,
+                    title,
+                    amount,
+                    paidBy,
+                    category,
+                    selectedDate
+            );
+
+            ExpenseStore.updateExpense(updatedExpense);
+
+            Toast.makeText(this,
+                    "Expense updated successfully",
+                    Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            // Add new expense
+            ExpenseStore.addExpense(
+                    groupId,
+                    title,
+                    amount,
+                    paidBy,
+                    category,
+                    selectedDate
+            );
+
+            Toast.makeText(this,
+                    "Expense saved successfully",
+                    Toast.LENGTH_SHORT).show();
+        }
 
         // Return to expense list
         finish();
