@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#F7F7FB">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="16dp">
+
+        <ImageView
+            android:id="@+id/btnBackDetail"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_arrow_back"
+            android:contentDescription="ย้อนกลับ"
+            android:padding="10dp"
+            android:clickable="true"
+            android:tint="#6759D9"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginEnd="12dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="รายละเอียดกลุ่ม"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#292940"/>
+
+    </LinearLayout>
+
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ชื่อกลุ่ม"
+        android:textSize="14sp"
+        android:textColor="#77768C"
+        android:layout_marginTop="32dp"/>
+
+    <TextView
+        android:id="@+id/tvGroupName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ชื่อกลุ่ม"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#292940"
+        android:layout_marginTop="8dp"/>
+
+
+    <Button
+        android:id="@+id/btnEditGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="✎ แก้ไขชื่อกลุ่ม"
+        android:textAllCaps="false"
+        android:layout_marginTop="12dp"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="สมาชิกในกลุ่ม"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#292940"
+        android:layout_marginTop="36dp"/>
+
+    <TextView
+        android:id="@+id/tvMemberCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0 คน"
+        android:textSize="16sp"
+        android:textColor="#6759D9"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/tvEmptyMembers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ยังไม่มีสมาชิกในกลุ่ม"
+        android:textSize="16sp"
+        android:textColor="#77768C"
+        android:gravity="center"
+        android:padding="40dp"
+        android:layout_marginTop="20dp"
+        android:background="#FFFFFF"/>
+
+
+    <LinearLayout
+        android:id="@+id/layoutMemberList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="12dp"/>
+
+
+    <Button
+        android:id="@+id/btnAddMember"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="เพิ่มสมาชิก"
+        android:textAllCaps="false"
+        android:layout_marginTop="24dp"/>
+
+
+    <Button
+        android:id="@+id/btnDeleteGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ลบกลุ่ม"
+        android:textAllCaps="false"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#D95C69"
+        android:textColor="#FFFFFF"/>
+
+
+</LinearLayout>
