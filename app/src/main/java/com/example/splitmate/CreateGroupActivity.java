@@ -40,12 +40,15 @@ public class CreateGroupActivity extends AppCompatActivity {
                 return;
             }
 
+            int groupId = GroupStore.addGroup(groupName);
             Intent intent = new Intent(
                     CreateGroupActivity.this,
                     GroupDetailActivity.class
             );
 
+            intent.putExtra("group_id", groupId);
             intent.putExtra("group_name", groupName);
+
 
             startActivity(intent);
         });

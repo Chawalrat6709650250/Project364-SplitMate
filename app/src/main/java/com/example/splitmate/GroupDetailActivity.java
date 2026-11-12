@@ -1,4 +1,3 @@
-
 package com.example.splitmate;
 
 import android.content.Intent;
@@ -10,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -24,7 +24,7 @@ public class GroupDetailActivity extends AppCompatActivity {
     private TextView tvMemberCount;
     private TextView tvEmptyMembers;
     private LinearLayout layoutMemberList;
-
+    private int groupId = -1;
     private final ArrayList<String> members = new ArrayList<>();
 
     private final ActivityResultLauncher<Intent> addMemberLauncher =
@@ -38,8 +38,12 @@ public class GroupDetailActivity extends AppCompatActivity {
                                     .getStringExtra("member_name");
 
                             if (name != null && !name.trim().isEmpty()) {
-                                members.add(name.trim());
-                                updateMemberList();
+
+                                if (GroupStore.addMember(groupId, name.trim())) {
+                                    members.clear();
+                                    members.addAll(GroupStore.getMembers(groupId));
+                                    updateMemberList();
+                                }
                             }
                         }
                     }
@@ -59,6 +63,9 @@ public class GroupDetailActivity extends AppCompatActivity {
         Button btnAddMember = findViewById(R.id.btnAddMember);
         Button btnEditGroup = findViewById(R.id.btnEditGroup);
         Button btnDeleteGroup = findViewById(R.id.btnDeleteGroup);
+
+        groupId = getIntent().getIntExtra("group_id", -1);
+
 
 
         btnEditGroup.setOnClickListener(v -> {
@@ -89,13 +96,20 @@ public class GroupDetailActivity extends AppCompatActivity {
                                 return;
                             }
 
-                            tvGroupName.setText(newName);
-                            dialog.dismiss();
+
+                            if (GroupStore.updateGroup(groupId, newName)) {
+                                tvGroupName.setText(newName);
+                                dialog.dismiss();
+                            } else {
+                                input.setError("ไม่สามารถแก้ไขชื่อกลุ่มได้");
+                            }
+
                         });
             });
 
             dialog.show();
         });
+
 
 
         btnDeleteGroup.setOnClickListener(v -> {
@@ -104,11 +118,43 @@ public class GroupDetailActivity extends AppCompatActivity {
                     .setTitle("ลบกลุ่ม")
                     .setMessage("ต้องการลบกลุ่มนี้หรือไม่?")
                     .setPositiveButton("ลบ", (dialog, which) -> {
-                        finish();
+
+                        if (groupId == -1) {
+                            Toast.makeText(
+                                    this,
+                                    "ไม่พบรหัสกลุ่ม",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                            return;
+                        }
+
+                        boolean deleted = GroupStore.deleteGroup(groupId);
+
+                        if (deleted) {
+                            Intent intent = new Intent(
+                                    GroupDetailActivity.this,
+                                    MainActivity.class
+                            );
+
+                            intent.addFlags(
+                                    Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                            Intent.FLAG_ACTIVITY_SINGLE_TOP
+                            );
+
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(
+                                    this,
+                                    "ไม่พบกลุ่มที่ต้องการลบ",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        }
                     })
                     .setNegativeButton("ยกเลิก", null)
                     .show();
         });
+
 
         String groupName =
                 getIntent().getStringExtra("group_name");
@@ -117,15 +163,10 @@ public class GroupDetailActivity extends AppCompatActivity {
             tvGroupName.setText(groupName);
         }
 
-        // Restore temporary members after screen recreation
-        if (savedInstanceState != null) {
-            ArrayList<String> savedMembers =
-                    savedInstanceState.getStringArrayList("members");
 
-            if (savedMembers != null) {
-                members.addAll(savedMembers);
-            }
-        }
+        members.clear();
+        members.addAll(GroupStore.getMembers(groupId));
+
 
         btnBackDetail.setOnClickListener(v -> finish());
 
@@ -191,8 +232,13 @@ public class GroupDetailActivity extends AppCompatActivity {
                         .setTitle("ลบสมาชิก")
                         .setMessage("ต้องการลบ " + name + " หรือไม่?")
                         .setPositiveButton("ลบ", (dialog, which) -> {
-                            members.remove(name);
-                            updateMemberList();
+
+                            if (GroupStore.removeMember(groupId, name)) {
+                                members.clear();
+                                members.addAll(GroupStore.getMembers(groupId));
+                                updateMemberList();
+                            }
+
                         })
                         .setNegativeButton("ยกเลิก", null)
                         .show();

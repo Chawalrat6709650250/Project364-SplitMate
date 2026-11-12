@@ -45,6 +45,24 @@
         android:layout_marginTop="24dp"
         android:background="#FFFFFF"/>
 
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/layoutGroupList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"/>
+
+    </ScrollView>
+
+
     <Button
         android:id="@+id/btnCreateGroup"
         android:layout_width="match_parent"
