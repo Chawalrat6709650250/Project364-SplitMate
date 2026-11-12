@@ -117,6 +117,16 @@
         android:textAllCaps="false"
         android:layout_marginTop="24dp"/>
 
+    <Button
+        android:id="@+id/btnManageExpenses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="จัดการค่าใช้จ่าย"
+        android:textAllCaps="false"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#6558D3"
+        android:textColor="#FFFFFF"/>
+
 
     <Button
         android:id="@+id/btnDeleteGroup"
