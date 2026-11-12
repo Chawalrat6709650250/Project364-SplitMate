@@ -1,4 +1,3 @@
-
 package com.example.splitmate;
 
 import android.os.Bundle;
@@ -7,6 +6,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -65,11 +65,18 @@ public class ExpenseActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> finish());
 
         // Add expense button
-        btnAddExpense.setOnClickListener(v ->
-                Toast.makeText(this,
-                        "Add Expense screen is coming next",
-                        Toast.LENGTH_SHORT).show()
-        );
+        btnAddExpense.setOnClickListener(v -> {
+
+            Intent intent = new Intent(
+                    ExpenseActivity.this,
+                    AddExpenseActivity.class
+            );
+
+            intent.putExtra("group_id", groupId);
+            intent.putExtra("group_name", groupName);
+
+            startActivity(intent);
+        });
 
         // Load expenses
         loadExpenses();
