@@ -1,13 +1,14 @@
 package com.example.splitmate;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.Intent;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -33,7 +34,6 @@ public class ExpenseActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_expense);
 
-        // Receive group information
         groupId = getIntent().getIntExtra("group_id", -1);
         groupName = getIntent().getStringExtra("group_name");
 
@@ -45,7 +45,6 @@ public class ExpenseActivity extends AppCompatActivity {
             return;
         }
 
-        // Initialize views
         tvGroupName = findViewById(R.id.tv_group_name);
         tvTotalExpense = findViewById(R.id.tv_total_expense);
         tvEmptyExpense = findViewById(R.id.tv_empty_expense);
@@ -56,15 +55,12 @@ public class ExpenseActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btn_back);
         btnAddExpense = findViewById(R.id.btn_add_expense);
 
-        // Display group name
         if (groupName != null) {
             tvGroupName.setText(groupName);
         }
 
-        // Back button
         btnBack.setOnClickListener(v -> finish());
 
-        // Add expense button
         btnAddExpense.setOnClickListener(v -> {
 
             Intent intent = new Intent(
@@ -78,7 +74,6 @@ public class ExpenseActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Load expenses
         loadExpenses();
     }
 
@@ -91,7 +86,7 @@ public class ExpenseActivity extends AppCompatActivity {
         }
     }
 
-    // Load expenses belonging to the selected group
+    // Load expenses belonging to selected group
     private void loadExpenses() {
 
         expenseListContainer.removeAllViews();
@@ -136,6 +131,7 @@ public class ExpenseActivity extends AppCompatActivity {
         params.setMargins(0, 12, 0, 0);
 
         item.setLayoutParams(params);
+
         item.setBackgroundResource(
                 android.R.drawable.dialog_holo_light_frame
         );
@@ -184,6 +180,112 @@ public class ExpenseActivity extends AppCompatActivity {
         amount.setTextColor(0xFF5145CD);
 
         item.addView(amount);
+
+        // Action buttons
+        LinearLayout actionLayout = new LinearLayout(this);
+
+        actionLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+        LinearLayout.LayoutParams actionParams =
+                new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+
+        actionParams.setMargins(0, 12, 0, 0);
+
+        actionLayout.setLayoutParams(actionParams);
+
+        Button btnEdit = new Button(this);
+        btnEdit.setText("Edit");
+
+        Button btnDelete = new Button(this);
+        btnDelete.setText("Delete");
+
+        LinearLayout.LayoutParams buttonParams =
+                new LinearLayout.LayoutParams(
+                        0,
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        1
+                );
+
+        actionLayout.addView(btnEdit, buttonParams);
+        actionLayout.addView(btnDelete, buttonParams);
+
+        item.addView(actionLayout);
+
+        // Edit expense
+        btnEdit.setOnClickListener(v -> {
+
+            Intent intent = new Intent(
+                    ExpenseActivity.this,
+                    AddExpenseActivity.class
+            );
+
+            intent.putExtra("group_id", groupId);
+            intent.putExtra("group_name", groupName);
+
+            intent.putExtra("is_edit", true);
+            intent.putExtra(
+                    "expense_id",
+                    expense.getExpenseId()
+            );
+
+            intent.putExtra(
+                    "expense_title",
+                    expense.getTitle()
+            );
+
+            intent.putExtra(
+                    "expense_amount",
+                    expense.getAmount()
+            );
+
+            intent.putExtra(
+                    "expense_paid_by",
+                    expense.getPaidBy()
+            );
+
+            intent.putExtra(
+                    "expense_category",
+                    expense.getCategory()
+            );
+
+            intent.putExtra(
+                    "expense_date",
+                    expense.getExpenseDate()
+            );
+
+            startActivity(intent);
+        });
+
+        // Delete expense
+        btnDelete.setOnClickListener(v -> {
+
+            new AlertDialog.Builder(ExpenseActivity.this)
+                    .setTitle("Delete Expense")
+                    .setMessage(
+                            "Are you sure you want to delete "
+                                    + expense.getTitle() + "?"
+                    )
+                    .setPositiveButton("Delete",
+                            (dialog, which) -> {
+
+                                ExpenseStore.deleteExpense(
+                                        expense.getExpenseId()
+                                );
+
+                                Toast.makeText(
+                                        ExpenseActivity.this,
+                                        "Expense deleted",
+                                        Toast.LENGTH_SHORT
+                                ).show();
+
+                                loadExpenses();
+                            })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+        });
 
         expenseListContainer.addView(item);
     }
