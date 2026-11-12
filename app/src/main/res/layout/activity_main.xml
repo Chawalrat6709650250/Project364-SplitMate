@@ -1,19 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#F7F7FB">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="SplitMate"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="#292940"
+        android:layout_marginTop="16dp"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="จัดการค่าใช้จ่ายร่วมกันอย่างง่ายดาย"
+        android:textSize="14sp"
+        android:textColor="#77768C"
+        android:layout_marginTop="6dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="กลุ่มของฉัน"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#292940"
+        android:layout_marginTop="36dp"/>
+
+    <TextView
+        android:id="@+id/tvEmptyGroups"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ยังไม่มีกลุ่ม&#10;เริ่มต้นด้วยการสร้างกลุ่มใหม่"
+        android:textSize="16sp"
+        android:textColor="#77768C"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:padding="40dp"
+        android:layout_marginTop="24dp"
+        android:background="#FFFFFF"/>
+
+    <Button
+        android:id="@+id/btnCreateGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="สร้างกลุ่มใหม่"
+        android:textAllCaps="false"
+        android:layout_marginTop="24dp"/>
+
+</LinearLayout>
