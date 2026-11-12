@@ -63,6 +63,8 @@ public class GroupDetailActivity extends AppCompatActivity {
         Button btnAddMember = findViewById(R.id.btnAddMember);
         Button btnEditGroup = findViewById(R.id.btnEditGroup);
         Button btnDeleteGroup = findViewById(R.id.btnDeleteGroup);
+        Button btnManageExpenses =
+                findViewById(R.id.btnManageExpenses);
 
         groupId = getIntent().getIntExtra("group_id", -1);
 
@@ -169,6 +171,21 @@ public class GroupDetailActivity extends AppCompatActivity {
 
 
         btnBackDetail.setOnClickListener(v -> finish());
+        btnManageExpenses.setOnClickListener(v -> {
+
+            Intent intent = new Intent(
+                    GroupDetailActivity.this,
+                    ExpenseActivity.class
+            );
+
+            intent.putExtra("group_id", groupId);
+            intent.putExtra(
+                    "group_name",
+                    tvGroupName.getText().toString()
+            );
+
+            startActivity(intent);
+        });
 
         btnAddMember.setOnClickListener(v -> {
             Intent intent = new Intent(
