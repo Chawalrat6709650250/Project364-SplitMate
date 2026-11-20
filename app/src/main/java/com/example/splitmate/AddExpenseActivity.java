@@ -2,6 +2,7 @@
 package com.example.splitmate;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -338,10 +339,14 @@ public class AddExpenseActivity extends AppCompatActivity {
                     "Expense updated successfully",
                     Toast.LENGTH_SHORT).show();
 
+            if (!SplitStore.isSplitValid(updatedExpense)) {
+                openSplitScreen(expenseId);
+            }
+
         } else {
 
             // Add new expense
-            ExpenseStore.addExpense(
+            int newExpenseId = ExpenseStore.addExpense(
                     groupId,
                     title,
                     amount,
@@ -353,9 +358,19 @@ public class AddExpenseActivity extends AppCompatActivity {
             Toast.makeText(this,
                     "Expense saved successfully",
                     Toast.LENGTH_SHORT).show();
+
+            openSplitScreen(newExpenseId);
         }
 
         // Return to expense list
         finish();
+    }
+
+    private void openSplitScreen(int id) {
+        Intent intent = new Intent(this, SplitActivity.class);
+        intent.putExtra("group_id", groupId);
+        intent.putExtra("group_name", groupName);
+        intent.putExtra("expense_id", id);
+        startActivity(intent);
     }
 }

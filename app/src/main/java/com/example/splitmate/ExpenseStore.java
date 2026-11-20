@@ -12,7 +12,7 @@ public class ExpenseStore {
     private static int nextId = 1;
 
     // Add a new expense
-    public static void addExpense(
+    public static int addExpense(
             int groupId,
             String title,
             double amount,
@@ -31,6 +31,8 @@ public class ExpenseStore {
         );
 
         expenses.add(expense);
+
+        return expense.getExpenseId();
     }
 
     // Get expenses belonging to a specific group
@@ -72,6 +74,8 @@ public class ExpenseStore {
 
             if (expense.getExpenseId() == expenseId) {
                 iterator.remove();
+
+                SplitStore.deleteSplitsForExpense(expenseId);
                 return;
             }
         }
