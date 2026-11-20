@@ -245,6 +245,17 @@ public class GroupDetailActivity extends AppCompatActivity {
             row.addView(btnRemove);
 
             btnRemove.setOnClickListener(v -> {
+                int used = SplitStore.countExpensesInvolving(groupId, name);
+                if (used > 0) {
+                    new AlertDialog.Builder(this)
+                            .setTitle("ลบสมาชิกไม่ได้")
+                            .setMessage("ลบ " + name + " ไม่ได้ เพราะยังเกี่ยวข้องกับค่าใช้จ่าย "
+                                    + used + " รายการ\nกรุณาแก้ไขหรือลบรายการเหล่านั้นก่อน")
+                            .setPositiveButton("ตกลง", null)
+                            .show();
+                    return;
+                }
+
                 new AlertDialog.Builder(this)
                         .setTitle("ลบสมาชิก")
                         .setMessage("ต้องการลบ " + name + " หรือไม่?")
