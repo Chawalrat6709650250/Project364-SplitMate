@@ -181,6 +181,34 @@ public class ExpenseActivity extends AppCompatActivity {
 
         item.addView(amount);
 
+        TextView splitStatus = new TextView(this);
+        splitStatus.setTextSize(13);
+
+        if (SplitStore.isSplitValid(expense)) {
+            StringBuilder sb = new StringBuilder("Split: ");
+            ArrayList<ExpenseSplit> splits =
+                    SplitStore.getSplits(expense.getExpenseId());
+
+            for (int i = 0; i < splits.size(); i++) {
+                ExpenseSplit split = splits.get(i);
+                if (i > 0) {
+                    sb.append(", ");
+                }
+                sb.append(split.getMemberName())
+                        .append(" ")
+                        .append(String.format(Locale.getDefault(),
+                                "%.2f", split.getShareAmount()));
+            }
+
+            splitStatus.setText(sb.toString());
+            splitStatus.setTextColor(0xFF15803D);
+        } else {
+            splitStatus.setText("⚠ Not split yet");
+            splitStatus.setTextColor(0xFFB45309);
+        }
+
+        item.addView(splitStatus);
+
         // Action buttons
         LinearLayout actionLayout = new LinearLayout(this);
 
@@ -202,6 +230,9 @@ public class ExpenseActivity extends AppCompatActivity {
         Button btnDelete = new Button(this);
         btnDelete.setText("Delete");
 
+        Button btnSplit = new Button(this);
+        btnSplit.setText("Split");
+
         LinearLayout.LayoutParams buttonParams =
                 new LinearLayout.LayoutParams(
                         0,
@@ -209,10 +240,19 @@ public class ExpenseActivity extends AppCompatActivity {
                         1
                 );
 
+        actionLayout.addView(btnSplit, buttonParams);
         actionLayout.addView(btnEdit, buttonParams);
         actionLayout.addView(btnDelete, buttonParams);
 
         item.addView(actionLayout);
+
+        btnSplit.setOnClickListener(v -> {
+            Intent intent = new Intent(ExpenseActivity.this, SplitActivity.class);
+            intent.putExtra("group_id", groupId);
+            intent.putExtra("group_name", groupName);
+            intent.putExtra("expense_id", expense.getExpenseId());
+            startActivity(intent);
+        });
 
         // Edit expense
         btnEdit.setOnClickListener(v -> {
