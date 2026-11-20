@@ -107,6 +107,25 @@ public class SplitStore {
         return false;
     }
 
+    public static int countExpensesInvolving(int groupId, String memberName) {
+        int count = 0;
+        for (Expense expense : ExpenseStore.getExpenses(groupId)) {
+            boolean involved = memberName.equals(expense.getPaidBy());
+            if (!involved) {
+                for (ExpenseSplit split : getSplits(expense.getExpenseId())) {
+                    if (split.getMemberName().equals(memberName)) {
+                        involved = true;
+                        break;
+                    }
+                }
+            }
+            if (involved) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     static void clearAll() {
         splits.clear();
         splitMethods.clear();
