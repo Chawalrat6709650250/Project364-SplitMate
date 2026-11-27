@@ -139,8 +139,6 @@ public class GroupDetailActivity extends AppCompatActivity {
                         boolean deleted = GroupStore.deleteGroup(groupId);
 
                         if (deleted) {
-                            SettlementStore.deleteSettlementsForGroup(groupId);
-
                             Intent intent = new Intent(
                                     GroupDetailActivity.this,
                                     MainActivity.class

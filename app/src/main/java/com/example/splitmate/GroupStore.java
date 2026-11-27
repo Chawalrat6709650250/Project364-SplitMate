@@ -115,21 +115,67 @@ public class GroupStore {
     }
 
     public static boolean removeMember(int groupId, String memberName) {
-        if (memberName == null || memberName.trim().isEmpty()) return false;
 
-        // Also protect references in stores that still use memory in Step 6.
-        if (SplitStore.countExpensesInvolving(groupId, memberName) > 0) return false;
-        for (Settlement settlement : SettlementStore.getSettlements(groupId)) {
-            if (memberName.equals(settlement.getFromMember())
-                    || memberName.equals(settlement.getToMember())) return false;
+        if (memberName == null || memberName.trim().isEmpty()) {
+            return false;
         }
 
+        SQLiteDatabase database = db();
+        database.beginTransaction();
+
         try {
-            return db().delete("members", "group_id = ? AND member_name = ?",
-                    new String[]{String.valueOf(groupId), memberName}) > 0;
+            // ตรวจสอบประวัติค่าใช้จ่าย
+            if (SplitStore.countExpensesInvolving(
+                    groupId, memberName) > 0) {
+                return false;
+            }
+
+            // ตรวจสอบประวัติการชำระเงิน
+            for (Settlement settlement :
+                    SettlementStore.getSettlements(
+                            groupId, Settlement.STATUS_PAID)) {
+
+                if (memberName.equals(settlement.getFromMember())
+                        || memberName.equals(settlement.getToMember())) {
+                    return false;
+                }
+            }
+
+            // ลบรายการ PENDING เก่าที่เกี่ยวข้อง
+            database.delete(
+                    "settlements",
+                    "group_id = ? AND status = ? AND "
+                            + "(from_member = ? OR to_member = ?)",
+                    new String[]{
+                            String.valueOf(groupId),
+                            Settlement.STATUS_PENDING,
+                            memberName,
+                            memberName
+                    }
+            );
+
+            int deleted = database.delete(
+                    "members",
+                    "group_id = ? AND member_name = ?",
+                    new String[]{
+                            String.valueOf(groupId),
+                            memberName
+                    }
+            );
+
+            if (deleted != 1) {
+                return false;
+            }
+
+            database.setTransactionSuccessful();
+            return true;
+
         } catch (SQLiteException e) {
             Log.e("SplitMateDB", "Cannot remove member", e);
             return false;
+
+        } finally {
+            database.endTransaction();
         }
     }
 }

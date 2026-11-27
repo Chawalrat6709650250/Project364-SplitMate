@@ -97,7 +97,27 @@ public class BalanceActivity extends AppCompatActivity {
         Map<String, BalanceCalculator.MemberSummary> summaries =
                 BalanceCalculator.summarize(groupId);
         Map<String, Long> net = BalanceCalculator.calculateNetSatang(groupId);
-        List<Settlement> pending = SettlementStore.refreshPending(groupId);
+        List<Settlement> pending;
+
+        try {
+            pending = SettlementStore.refreshPending(groupId);
+        } catch (android.database.sqlite.SQLiteException e) {
+
+            android.util.Log.e(
+                    "SplitMateDB",
+                    "Cannot refresh settlements",
+                    e
+            );
+
+            Toast.makeText(
+                    this,
+                    "ไม่สามารถคำนวณรายการคืนเงินได้",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            finish();
+            return;
+        }
         ArrayList<Settlement> paid =
                 SettlementStore.getSettlements(groupId, Settlement.STATUS_PAID);
 
@@ -236,8 +256,18 @@ public class BalanceActivity extends AppCompatActivity {
                 .setTitle("ยืนยันการโอนเงิน")
                 .setMessage(describe(settlement) + "\nโอนเรียบร้อยแล้วใช่ไหม?")
                 .setPositiveButton("ใช่ โอนแล้ว", (dialog, which) -> {
-                    SettlementStore.updateStatus(
-                            settlement.getSettlementId(), Settlement.STATUS_PAID);
+                    if (!SettlementStore.updateStatus(
+                            settlement.getSettlementId(),
+                            Settlement.STATUS_PAID)) {
+
+                        Toast.makeText(
+                                this,
+                                "ไม่สามารถบันทึกการชำระเงินได้",
+                                Toast.LENGTH_SHORT
+                        ).show();
+                        return;
+                    }
+
                     refresh();
                 })
                 .setNegativeButton("ยังก่อน", null)
@@ -250,7 +280,17 @@ public class BalanceActivity extends AppCompatActivity {
                 .setMessage("ยกเลิกรายการ " + describe(settlement)
                         + " ?\nยอดจะถูกคำนวณใหม่")
                 .setPositiveButton("ยืนยัน", (dialog, which) -> {
-                    SettlementStore.deleteSettlement(settlement.getSettlementId());
+                    if (!SettlementStore.deleteSettlement(
+                            settlement.getSettlementId())) {
+
+                        Toast.makeText(
+                                this,
+                                "ไม่สามารถยกเลิกการชำระเงินได้",
+                                Toast.LENGTH_SHORT
+                        ).show();
+                        return;
+                    }
+
                     refresh();
                 })
                 .setNegativeButton("ปิด", null)
