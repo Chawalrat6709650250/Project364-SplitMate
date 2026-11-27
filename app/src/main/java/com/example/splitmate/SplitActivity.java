@@ -399,7 +399,15 @@ public class SplitActivity extends AppCompatActivity {
                 ? SplitCalculator.METHOD_EQUAL
                 : SplitCalculator.METHOD_CUSTOM;
 
-        SplitStore.saveSplits(expenseId, shares, method);
+        if (!SplitStore.saveSplits(expenseId, shares, method)) {
+            Toast.makeText(
+                    this,
+                    "ไม่สามารถบันทึกการหารเงินได้",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return;
+        }
 
         Toast.makeText(this, "บันทึกการหารแล้ว", Toast.LENGTH_SHORT).show();
         setResult(RESULT_OK);

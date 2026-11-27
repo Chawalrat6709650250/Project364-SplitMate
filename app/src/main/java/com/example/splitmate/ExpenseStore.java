@@ -91,17 +91,16 @@ public class ExpenseStore {
 
     public static boolean deleteExpense(int expenseId) {
         try {
-            int deleted = db().delete("expenses", "expense_id = ?",
-                    new String[]{String.valueOf(expenseId)});
-            if (deleted == 0) return false;
+            return db().delete(
+                    "expenses",
+                    "expense_id = ?",
+                    new String[]{String.valueOf(expenseId)}
+            ) > 0;
+
         } catch (SQLiteException e) {
             Log.e("SplitMateDB", "Cannot delete expense", e);
             return false;
         }
-        // SQLite cascades persisted splits. Also clean the old in-memory SplitStore
-        // until it is migrated in Step 8.
-        SplitStore.deleteSplitsForExpense(expenseId);
-        return true;
     }
 
     public static double getTotalExpense(int groupId) {
