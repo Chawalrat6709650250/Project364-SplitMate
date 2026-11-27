@@ -1,5 +1,10 @@
-
 package com.example.splitmate;
+
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -17,85 +22,114 @@ public class GroupStore {
         }
     }
 
-    private static final ArrayList<Group> groups =
-            new ArrayList<>();
+    private static SQLiteDatabase db() {
+        return SplitMateApplication.getDatabase();
+    }
 
-    private static int nextId = 1;
-
-    // สร้างกลุ่ม
     public static int addGroup(String name) {
-        int id = nextId++;
-        groups.add(new Group(id, name));
-        return id;
+        if (name == null || name.trim().isEmpty()) return -1;
+        ContentValues values = new ContentValues();
+        values.put("group_name", name.trim());
+        try {
+            return (int) db().insertOrThrow("groups", null, values);
+        } catch (SQLiteException e) {
+            Log.e("SplitMateDB", "Cannot create group", e);
+            return -1;
+        }
     }
 
-    // อ่านกลุ่มทั้งหมด
     public static ArrayList<Group> getGroups() {
-        return new ArrayList<>(groups);
-    }
-
-    // ค้นหากลุ่มตาม ID
-    public static Group getGroup(int id) {
-        for (Group group : groups) {
-            if (group.id == id) {
-                return group;
+        ArrayList<Group> result = new ArrayList<>();
+        try (Cursor cursor = db().query("groups",
+                new String[]{"group_id", "group_name"},
+                null, null, null, null, "group_id ASC")) {
+            while (cursor.moveToNext()) {
+                Group group = new Group(cursor.getInt(0), cursor.getString(1));
+                group.members.addAll(getMembers(group.id));
+                result.add(group);
             }
         }
-        return null;
+        return result;
     }
 
-    // แก้ไขชื่อกลุ่ม
+    public static Group getGroup(int id) {
+        try (Cursor cursor = db().query("groups",
+                new String[]{"group_id", "group_name"},
+                "group_id = ?", new String[]{String.valueOf(id)},
+                null, null, null)) {
+            if (!cursor.moveToFirst()) return null;
+            Group group = new Group(cursor.getInt(0), cursor.getString(1));
+            group.members.addAll(getMembers(id));
+            return group;
+        }
+    }
+
     public static boolean updateGroup(int id, String newName) {
-        Group group = getGroup(id);
-
-        if (group == null || newName == null
-                || newName.trim().isEmpty()) {
+        if (newName == null || newName.trim().isEmpty()) return false;
+        ContentValues values = new ContentValues();
+        values.put("group_name", newName.trim());
+        try {
+            return db().update("groups", values, "group_id = ?",
+                    new String[]{String.valueOf(id)}) > 0;
+        } catch (SQLiteException e) {
+            Log.e("SplitMateDB", "Cannot update group", e);
             return false;
         }
-
-        group.name = newName.trim();
-        return true;
     }
 
-    // ลบกลุ่ม
     public static boolean deleteGroup(int groupId) {
-        return groups.removeIf(group -> group.id == groupId);
+        try {
+            return db().delete("groups", "group_id = ?",
+                    new String[]{String.valueOf(groupId)}) > 0;
+        } catch (SQLiteException e) {
+            Log.e("SplitMateDB", "Cannot delete group", e);
+            return false;
+        }
     }
 
-    // เพิ่มสมาชิกในกลุ่ม
     public static boolean addMember(int groupId, String memberName) {
-        Group group = getGroup(groupId);
-
-        if (group == null || memberName == null
-                || memberName.trim().isEmpty()) {
+        if (memberName == null || memberName.trim().isEmpty()) return false;
+        ContentValues values = new ContentValues();
+        values.put("group_id", groupId);
+        values.put("member_name", memberName.trim());
+        try {
+            db().insertOrThrow("members", null, values);
+            return true;
+        } catch (SQLiteException e) {
+            Log.e("SplitMateDB", "Cannot add member", e);
             return false;
         }
-
-        group.members.add(memberName.trim());
-        return true;
     }
 
-    // อ่านสมาชิกในกลุ่ม
     public static ArrayList<String> getMembers(int groupId) {
-        Group group = getGroup(groupId);
-
-        if (group == null) {
-            return new ArrayList<>();
+        ArrayList<String> result = new ArrayList<>();
+        try (Cursor cursor = db().query("members",
+                new String[]{"member_name"}, "group_id = ?",
+                new String[]{String.valueOf(groupId)},
+                null, null, "member_id ASC")) {
+            while (cursor.moveToNext()) {
+                result.add(cursor.getString(0));
+            }
         }
-
-        return new ArrayList<>(group.members);
+        return result;
     }
 
-    // ลบสมาชิกในกลุ่ม
-    public static boolean removeMember(
-            int groupId, String memberName) {
+    public static boolean removeMember(int groupId, String memberName) {
+        if (memberName == null || memberName.trim().isEmpty()) return false;
 
-        Group group = getGroup(groupId);
-
-        if (group == null) {
-            return false;
+        // Also protect references in stores that still use memory in Step 6.
+        if (SplitStore.countExpensesInvolving(groupId, memberName) > 0) return false;
+        for (Settlement settlement : SettlementStore.getSettlements(groupId)) {
+            if (memberName.equals(settlement.getFromMember())
+                    || memberName.equals(settlement.getToMember())) return false;
         }
 
-        return group.members.remove(memberName);
+        try {
+            return db().delete("members", "group_id = ? AND member_name = ?",
+                    new String[]{String.valueOf(groupId), memberName}) > 0;
+        } catch (SQLiteException e) {
+            Log.e("SplitMateDB", "Cannot remove member", e);
+            return false;
+        }
     }
 }

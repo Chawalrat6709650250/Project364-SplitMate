@@ -41,6 +41,10 @@ public class CreateGroupActivity extends AppCompatActivity {
             }
 
             int groupId = GroupStore.addGroup(groupName);
+            if (groupId == -1) {
+                etGroupName.setError("ไม่สามารถสร้างกลุ่มได้");
+                return;
+            }
             Intent intent = new Intent(
                     CreateGroupActivity.this,
                     GroupDetailActivity.class

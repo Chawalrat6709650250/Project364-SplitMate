@@ -43,6 +43,12 @@ public class GroupDetailActivity extends AppCompatActivity {
                                     members.clear();
                                     members.addAll(GroupStore.getMembers(groupId));
                                     updateMemberList();
+                                } else {
+                                    Toast.makeText(
+                                            GroupDetailActivity.this,
+                                            "ไม่สามารถเพิ่มสมาชิกได้ กรุณาตรวจสอบชื่อซ้ำ",
+                                            Toast.LENGTH_SHORT
+                                    ).show();
                                 }
                             }
                         }
@@ -278,6 +284,12 @@ public class GroupDetailActivity extends AppCompatActivity {
                                 members.clear();
                                 members.addAll(GroupStore.getMembers(groupId));
                                 updateMemberList();
+                            } else {
+                                Toast.makeText(
+                                        GroupDetailActivity.this,
+                                        "ไม่สามารถลบสมาชิกได้ อาจมีประวัติค่าใช้จ่ายหรือคืนเงิน",
+                                        Toast.LENGTH_SHORT
+                                ).show();
                             }
 
                         })
