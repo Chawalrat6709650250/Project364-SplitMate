@@ -71,7 +71,7 @@ public class SplitActivity extends AppCompatActivity {
         expense = findExpense(groupId, expenseId);
 
         if (groupId == -1 || expense == null) {
-            Toast.makeText(this, "Expense not found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "ไม่พบรายการค่าใช้จ่าย", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -91,10 +91,10 @@ public class SplitActivity extends AppCompatActivity {
         TextView tvAmount = findViewById(R.id.tv_split_expense_amount);
         TextView tvPaidBy = findViewById(R.id.tv_split_paid_by);
 
-        tvGroupName.setText("Group: " + (groupName != null ? groupName : ""));
+        tvGroupName.setText("กลุ่ม: " + (groupName != null ? groupName : ""));
         tvTitle.setText(expense.getTitle());
         tvAmount.setText(formatBaht(expense.getAmount()));
-        tvPaidBy.setText("Paid by: " + expense.getPaidBy());
+        tvPaidBy.setText("ผู้จ่าย: " + expense.getPaidBy());
 
         findViewById(R.id.btn_back_split).setOnClickListener(v -> confirmLeave());
 
@@ -167,7 +167,7 @@ public class SplitActivity extends AppCompatActivity {
             etAmount.setEms(5);
 
             TextView tvUnit = new TextView(this);
-            tvUnit.setText(" THB");
+            tvUnit.setText(" บาท");
             tvUnit.setTextColor(0xFF777777);
 
             row.addView(checkBox, new LinearLayout.LayoutParams(
@@ -227,8 +227,8 @@ public class SplitActivity extends AppCompatActivity {
 
         if (!SplitStore.isSplitValid(expense)) {
             notices.add(String.format(Locale.US,
-                    "The expense amount was changed. Previous split totals %.2f THB. "
-                            + "Please split again.",
+                    "จำนวนเงินถูกแก้ไข ยอดที่หารไว้เดิมรวม %.2f บาท "
+                            + "กรุณาหารใหม่",
                     SplitCalculator.sum(savedShares)));
         }
 
@@ -239,7 +239,7 @@ public class SplitActivity extends AppCompatActivity {
             }
         }
         if (!removed.isEmpty()) {
-            notices.add("Removed members no longer in this split: "
+            notices.add("นำสมาชิกที่ไม่อยู่ในกลุ่มแล้วออก: "
                     + String.join(", ", removed));
         }
 
@@ -333,7 +333,7 @@ public class SplitActivity extends AppCompatActivity {
         double remaining = SplitCalculator.remaining(expense.getAmount(), shares);
 
         String text = String.format(Locale.US,
-                "Total %.2f / %.2f THB", total, expense.getAmount());
+                "รวม %.2f / %.2f บาท", total, expense.getAmount());
 
         int color;
         if (SplitCalculator.toSatang(remaining) == 0 && !shares.isEmpty()) {
@@ -372,9 +372,9 @@ public class SplitActivity extends AppCompatActivity {
 
             if (showErrors) {
                 if (value == null) {
-                    row.etAmount.setError("Enter amount");
+                    row.etAmount.setError("กรอกจำนวนเงิน");
                 } else if (SplitCalculator.toSatang(value) <= 0) {
-                    row.etAmount.setError("Must be > 0");
+                    row.etAmount.setError("ต้องมากกว่า 0");
                 }
             }
 
@@ -401,7 +401,7 @@ public class SplitActivity extends AppCompatActivity {
 
         SplitStore.saveSplits(expenseId, shares, method);
 
-        Toast.makeText(this, "Split saved", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "บันทึกการหารแล้ว", Toast.LENGTH_SHORT).show();
         setResult(RESULT_OK);
         finish();
     }
@@ -413,11 +413,11 @@ public class SplitActivity extends AppCompatActivity {
         }
 
         new AlertDialog.Builder(this)
-                .setTitle("Split not saved")
-                .setMessage("This expense has not been split yet. "
-                        + "It will not be counted in the balance until you split it.")
-                .setPositiveButton("Leave anyway", (d, w) -> finish())
-                .setNegativeButton("Stay", null)
+                .setTitle("ยังไม่ได้บันทึกการหาร")
+                .setMessage("ค่าใช้จ่ายนี้ยังไม่ได้หาร "
+                        + "จะยังไม่ถูกนำไปคิดยอดจนกว่าจะหาร")
+                .setPositiveButton("ออกเลย", (d, w) -> finish())
+                .setNegativeButton("อยู่ต่อ", null)
                 .show();
     }
 

@@ -44,6 +44,9 @@
             android:name=".SplitActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".BalanceActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

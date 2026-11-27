@@ -68,11 +68,11 @@ public final class SplitCalculator {
 
     public static ValidationResult validateSplit(double amount, Map<String, Double> shares) {
         if (amount <= 0 || Double.isNaN(amount) || Double.isInfinite(amount)) {
-            return new ValidationResult(false, "Invalid expense amount");
+            return new ValidationResult(false, "จำนวนเงินไม่ถูกต้อง");
         }
 
         if (shares == null || shares.isEmpty()) {
-            return new ValidationResult(false, "Please select at least 1 member");
+            return new ValidationResult(false, "กรุณาเลือกสมาชิกอย่างน้อย 1 คน");
         }
 
         for (Map.Entry<String, Double> entry : shares.entrySet()) {
@@ -80,12 +80,12 @@ public final class SplitCalculator {
 
             if (value == null || Double.isNaN(value) || Double.isInfinite(value)) {
                 return new ValidationResult(false,
-                        "Please enter an amount for " + entry.getKey());
+                        "กรุณากรอกจำนวนเงินของ " + entry.getKey());
             }
 
             if (toSatang(value) <= 0) {
                 return new ValidationResult(false,
-                        "Amount for " + entry.getKey() + " must be greater than 0");
+                        "จำนวนเงินของ " + entry.getKey() + " ต้องมากกว่า 0");
             }
         }
 
@@ -94,13 +94,13 @@ public final class SplitCalculator {
         if (diff > 0) {
             return new ValidationResult(false, String.format(
                     java.util.Locale.US,
-                    "Total is short by %.2f THB", toBaht(diff)));
+                    "ยอดรวมยังขาดอีก %.2f บาท", toBaht(diff)));
         }
 
         if (diff < 0) {
             return new ValidationResult(false, String.format(
                     java.util.Locale.US,
-                    "Total is over by %.2f THB", toBaht(-diff)));
+                    "ยอดรวมเกินมา %.2f บาท", toBaht(-diff)));
         }
 
         return new ValidationResult(true, "OK");

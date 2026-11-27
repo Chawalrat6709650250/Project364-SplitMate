@@ -4,6 +4,7 @@ package com.example.splitmate;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,12 +31,12 @@ public class AddExpenseActivity extends AppCompatActivity {
     private ArrayList<String> members;
 
     private final String[] categories = {
-            "Food",
-            "Transportation",
-            "Accommodation",
-            "Shopping",
-            "Entertainment",
-            "Other"
+            "อาหาร",
+            "การเดินทาง",
+            "ที่พัก",
+            "ช้อปปิ้ง",
+            "บันเทิง",
+            "อื่น ๆ"
     };
 
     private EditText etExpenseTitle;
@@ -47,7 +48,7 @@ public class AddExpenseActivity extends AppCompatActivity {
     private TextView tvGroupName;
     private TextView tvExpenseDate;
 
-    private Button btnBack;
+    private View btnBack;
     private Button btnSelectDate;
     private Button btnSaveExpense;
 
@@ -66,7 +67,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         if (groupId == -1) {
             Toast.makeText(this,
-                    "Invalid group information",
+                    "ไม่พบข้อมูลกลุ่ม",
                     Toast.LENGTH_SHORT).show();
             finish();
             return;
@@ -87,7 +88,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         btnSaveExpense = findViewById(R.id.btn_save_expense);
 
         // Display group name
-        tvGroupName.setText("Group: " + groupName);
+        tvGroupName.setText("กลุ่ม: " + groupName);
 
         // Setup category and member lists
         setupCategorySpinner();
@@ -99,7 +100,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         // Load existing expense in Edit Mode
         if (isEditMode) {
             loadExpenseForEdit();
-            btnSaveExpense.setText("Update Expense");
+            btnSaveExpense.setText("บันทึกการแก้ไข");
         }
 
         // Button listeners
@@ -133,7 +134,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         ArrayList<String> memberOptions = new ArrayList<>();
 
-        memberOptions.add("Select member");
+        memberOptions.add("เลือกผู้จ่าย");
         memberOptions.addAll(members);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -184,7 +185,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         if (existingExpense == null) {
 
             Toast.makeText(this,
-                    "Expense not found",
+                    "ไม่พบรายการค่าใช้จ่าย",
                     Toast.LENGTH_SHORT).show();
 
             finish();
@@ -270,14 +271,14 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         // Validate title
         if (title.isEmpty()) {
-            etExpenseTitle.setError("Please enter expense name");
+            etExpenseTitle.setError("กรุณากรอกชื่อรายการ");
             etExpenseTitle.requestFocus();
             return;
         }
 
         // Validate amount
         if (amountText.isEmpty()) {
-            etExpenseAmount.setError("Please enter amount");
+            etExpenseAmount.setError("กรุณากรอกจำนวนเงิน");
             etExpenseAmount.requestFocus();
             return;
         }
@@ -287,7 +288,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         try {
             amount = Double.parseDouble(amountText);
         } catch (NumberFormatException e) {
-            etExpenseAmount.setError("Invalid amount");
+            etExpenseAmount.setError("จำนวนเงินไม่ถูกต้อง");
             etExpenseAmount.requestFocus();
             return;
         }
@@ -297,7 +298,7 @@ public class AddExpenseActivity extends AppCompatActivity {
                 || Double.isNaN(amount)) {
 
             etExpenseAmount.setError(
-                    "Amount must be greater than zero"
+                    "จำนวนเงินต้องมากกว่า 0"
             );
 
             etExpenseAmount.requestFocus();
@@ -308,7 +309,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         if (spinnerPaidBy.getSelectedItemPosition() == 0) {
 
             Toast.makeText(this,
-                    "Please select who paid",
+                    "กรุณาเลือกผู้จ่าย",
                     Toast.LENGTH_SHORT).show();
 
             return;
@@ -336,7 +337,7 @@ public class AddExpenseActivity extends AppCompatActivity {
             ExpenseStore.updateExpense(updatedExpense);
 
             Toast.makeText(this,
-                    "Expense updated successfully",
+                    "แก้ไขค่าใช้จ่ายแล้ว",
                     Toast.LENGTH_SHORT).show();
 
             if (!SplitStore.isSplitValid(updatedExpense)) {
@@ -356,7 +357,7 @@ public class AddExpenseActivity extends AppCompatActivity {
             );
 
             Toast.makeText(this,
-                    "Expense saved successfully",
+                    "บันทึกค่าใช้จ่ายแล้ว",
                     Toast.LENGTH_SHORT).show();
 
             openSplitScreen(newExpenseId);

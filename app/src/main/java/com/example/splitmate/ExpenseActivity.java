@@ -25,7 +25,7 @@ public class ExpenseActivity extends AppCompatActivity {
 
     private LinearLayout expenseListContainer;
 
-    private Button btnBack;
+    private View btnBack;
     private Button btnAddExpense;
 
     @Override
@@ -39,7 +39,7 @@ public class ExpenseActivity extends AppCompatActivity {
 
         if (groupId == -1) {
             Toast.makeText(this,
-                    "Invalid group information",
+                    "ไม่พบข้อมูลกลุ่ม",
                     Toast.LENGTH_SHORT).show();
             finish();
             return;
@@ -99,7 +99,7 @@ public class ExpenseActivity extends AppCompatActivity {
 
         tvTotalExpense.setText(
                 String.format(Locale.getDefault(),
-                        "%.2f THB", total)
+                        "%.2f บาท", total)
         );
 
         if (expenseList.isEmpty()) {
@@ -148,7 +148,7 @@ public class ExpenseActivity extends AppCompatActivity {
         // Paid by
         TextView paidBy = new TextView(this);
 
-        paidBy.setText("Paid by: " + expense.getPaidBy());
+        paidBy.setText("ผู้จ่าย: " + expense.getPaidBy());
         paidBy.setTextSize(14);
         paidBy.setTextColor(0xFF777777);
 
@@ -173,7 +173,7 @@ public class ExpenseActivity extends AppCompatActivity {
 
         amount.setText(
                 String.format(Locale.getDefault(),
-                        "%.2f THB", expense.getAmount())
+                        "%.2f บาท", expense.getAmount())
         );
 
         amount.setTextSize(18);
@@ -185,7 +185,7 @@ public class ExpenseActivity extends AppCompatActivity {
         splitStatus.setTextSize(13);
 
         if (SplitStore.isSplitValid(expense)) {
-            StringBuilder sb = new StringBuilder("Split: ");
+            StringBuilder sb = new StringBuilder("หารกับ: ");
             ArrayList<ExpenseSplit> splits =
                     SplitStore.getSplits(expense.getExpenseId());
 
@@ -203,7 +203,7 @@ public class ExpenseActivity extends AppCompatActivity {
             splitStatus.setText(sb.toString());
             splitStatus.setTextColor(0xFF15803D);
         } else {
-            splitStatus.setText("⚠ Not split yet");
+            splitStatus.setText("⚠ ยังไม่ได้หาร");
             splitStatus.setTextColor(0xFFB45309);
         }
 
@@ -225,13 +225,13 @@ public class ExpenseActivity extends AppCompatActivity {
         actionLayout.setLayoutParams(actionParams);
 
         Button btnEdit = new Button(this);
-        btnEdit.setText("Edit");
+        btnEdit.setText("แก้ไข");
 
         Button btnDelete = new Button(this);
-        btnDelete.setText("Delete");
+        btnDelete.setText("ลบ");
 
         Button btnSplit = new Button(this);
-        btnSplit.setText("Split");
+        btnSplit.setText("หาร");
 
         LinearLayout.LayoutParams buttonParams =
                 new LinearLayout.LayoutParams(
@@ -303,12 +303,12 @@ public class ExpenseActivity extends AppCompatActivity {
         btnDelete.setOnClickListener(v -> {
 
             new AlertDialog.Builder(ExpenseActivity.this)
-                    .setTitle("Delete Expense")
+                    .setTitle("ลบค่าใช้จ่าย")
                     .setMessage(
-                            "Are you sure you want to delete "
+                            "ต้องการลบ "
                                     + expense.getTitle() + "?"
                     )
-                    .setPositiveButton("Delete",
+                    .setPositiveButton("ลบ",
                             (dialog, which) -> {
 
                                 ExpenseStore.deleteExpense(
@@ -317,13 +317,13 @@ public class ExpenseActivity extends AppCompatActivity {
 
                                 Toast.makeText(
                                         ExpenseActivity.this,
-                                        "Expense deleted",
+                                        "ลบค่าใช้จ่ายแล้ว",
                                         Toast.LENGTH_SHORT
                                 ).show();
 
                                 loadExpenses();
                             })
-                    .setNegativeButton("Cancel", null)
+                    .setNegativeButton("ยกเลิก", null)
                     .show();
         });
 
