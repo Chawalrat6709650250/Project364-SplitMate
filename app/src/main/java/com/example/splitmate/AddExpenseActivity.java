@@ -293,12 +293,10 @@ public class AddExpenseActivity extends AppCompatActivity {
             return;
         }
 
-        if (amount <= 0
-                || Double.isInfinite(amount)
-                || Double.isNaN(amount)) {
+        if (!ExpenseStore.isValidAmount(amount)) {
 
             etExpenseAmount.setError(
-                    "จำนวนเงินต้องมากกว่า 0"
+                    "จำนวนเงินไม่ถูกต้อง ต้องไม่น้อยกว่า 0.01 บาท"
             );
 
             etExpenseAmount.requestFocus();
@@ -334,7 +332,15 @@ public class AddExpenseActivity extends AppCompatActivity {
                     selectedDate
             );
 
-            ExpenseStore.updateExpense(updatedExpense);
+            if (!ExpenseStore.updateExpense(updatedExpense)) {
+                Toast.makeText(
+                        this,
+                        "ไม่สามารถแก้ไขค่าใช้จ่ายได้",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+                return;
+            }
 
             Toast.makeText(this,
                     "แก้ไขค่าใช้จ่ายแล้ว",
@@ -355,6 +361,17 @@ public class AddExpenseActivity extends AppCompatActivity {
                     category,
                     selectedDate
             );
+
+            // ตรวจสอบว่าบันทึกลง SQLite สำเร็จหรือไม่
+            if (newExpenseId == -1) {
+                Toast.makeText(
+                        this,
+                        "ไม่สามารถบันทึกค่าใช้จ่ายได้",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+                return;
+            }
 
             Toast.makeText(this,
                     "บันทึกค่าใช้จ่ายแล้ว",

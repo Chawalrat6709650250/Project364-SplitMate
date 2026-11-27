@@ -311,9 +311,17 @@ public class ExpenseActivity extends AppCompatActivity {
                     .setPositiveButton("ลบ",
                             (dialog, which) -> {
 
-                                ExpenseStore.deleteExpense(
-                                        expense.getExpenseId()
-                                );
+                                if (!ExpenseStore.deleteExpense(
+                                        expense.getExpenseId())) {
+
+                                    Toast.makeText(
+                                            ExpenseActivity.this,
+                                            "ไม่สามารถลบค่าใช้จ่ายได้",
+                                            Toast.LENGTH_SHORT
+                                    ).show();
+
+                                    return;
+                                }
 
                                 Toast.makeText(
                                         ExpenseActivity.this,
