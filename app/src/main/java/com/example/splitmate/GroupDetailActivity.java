@@ -133,6 +133,8 @@ public class GroupDetailActivity extends AppCompatActivity {
                         boolean deleted = GroupStore.deleteGroup(groupId);
 
                         if (deleted) {
+                            SettlementStore.deleteSettlementsForGroup(groupId);
+
                             Intent intent = new Intent(
                                     GroupDetailActivity.this,
                                     MainActivity.class
@@ -184,6 +186,17 @@ public class GroupDetailActivity extends AppCompatActivity {
                     tvGroupName.getText().toString()
             );
 
+            startActivity(intent);
+        });
+
+        Button btnBalance = findViewById(R.id.btnBalance);
+        btnBalance.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    GroupDetailActivity.this,
+                    BalanceActivity.class
+            );
+            intent.putExtra("group_id", groupId);
+            intent.putExtra("group_name", tvGroupName.getText().toString());
             startActivity(intent);
         });
 

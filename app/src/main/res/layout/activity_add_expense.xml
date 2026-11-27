@@ -11,18 +11,24 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <Button
+        <ImageView
             android:id="@+id/btn_back_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="← Back"
-            android:textAllCaps="false" />
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_arrow_back"
+            android:contentDescription="ย้อนกลับ"
+            android:padding="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:tint="#6759D9"
+            android:background="?attr/selectableItemBackgroundBorderless" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Add Expense"
+            android:text="เพิ่มค่าใช้จ่าย"
             android:textColor="#20243A"
             android:textSize="26sp"
             android:textStyle="bold" />
@@ -32,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="Group Name"
+            android:text="ชื่อกลุ่ม"
             android:textColor="#888888"
             android:textSize="14sp" />
 
@@ -41,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
-            android:text="Expense Name"
+            android:text="ชื่อรายการ"
             android:textColor="#292940"
             android:textStyle="bold" />
 
@@ -49,7 +55,7 @@
             android:id="@+id/et_expense_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="e.g. Dinner"
+            android:hint="เช่น ค่าอาหารเย็น"
             android:inputType="textCapSentences"
             android:singleLine="true" />
 
@@ -58,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Amount (THB)"
+            android:text="จำนวนเงิน (บาท)"
             android:textColor="#292940"
             android:textStyle="bold" />
 
@@ -75,7 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Category"
+            android:text="หมวดหมู่"
             android:textColor="#292940"
             android:textStyle="bold" />
 
@@ -90,7 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Paid By"
+            android:text="ผู้จ่าย"
             android:textColor="#292940"
             android:textStyle="bold" />
 
@@ -105,7 +111,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Expense Date"
+            android:text="วันที่"
             android:textColor="#292940"
             android:textStyle="bold" />
 
@@ -115,7 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:backgroundTint="#E9E8FF"
-            android:text="Select Date"
+            android:text="เลือกวันที่"
             android:textAllCaps="false"
             android:textColor="#5145CD" />
 
@@ -136,7 +142,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginBottom="24dp"
             android:backgroundTint="#6558D3"
-            android:text="Save Expense"
+            android:text="บันทึกค่าใช้จ่าย"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
             android:textSize="16sp" />
