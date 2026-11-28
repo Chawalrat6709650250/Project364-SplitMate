@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AlertDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -103,8 +105,19 @@ public class AddExpenseActivity extends AppCompatActivity {
             btnSaveExpense.setText("บันทึกการแก้ไข");
         }
 
+        if (savedInstanceState != null) {
+            String restoredDate = savedInstanceState.getString("selected_date");
+            if (restoredDate != null) {
+                selectedDate = restoredDate;
+                tvExpenseDate.setText(selectedDate);
+            }
+        }
+
         // Button listeners
-        btnBack.setOnClickListener(v -> finish());
+        btnBack.setOnClickListener(v -> confirmLeaveExpense());
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override public void handleOnBackPressed() { confirmLeaveExpense(); }
+        });
 
         btnSelectDate.setOnClickListener(v -> showDatePicker());
 
@@ -382,6 +395,26 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         // Return to expense list
         finish();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("selected_date", selectedDate);
+        super.onSaveInstanceState(outState);
+    }
+
+    private void confirmLeaveExpense() {
+        boolean dirty = isEditMode || !etExpenseTitle.getText().toString().trim().isEmpty()
+                || !etExpenseAmount.getText().toString().trim().isEmpty();
+        if (!dirty) { finish(); return; }
+        new AlertDialog.Builder(this)
+                .setTitle(UiText.tr(this, "ยังไม่ได้บันทึกค่าใช้จ่าย", "Unsaved expense"))
+                .setMessage(UiText.tr(this,
+                        "ข้อมูลค่าใช้จ่ายที่ยังไม่ได้บันทึกจะหายไป ต้องการออกหรือไม่?",
+                        "Unsaved expense changes will be lost. Leave?"))
+                .setPositiveButton(UiText.tr(this,"ออกจากหน้านี้","Leave"), (d,w) -> finish())
+                .setNegativeButton(UiText.tr(this,"อยู่ต่อ","Stay"), null)
+                .show();
     }
 
     private void openSplitScreen(int id) {

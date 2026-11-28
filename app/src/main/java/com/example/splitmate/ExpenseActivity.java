@@ -141,7 +141,7 @@ public class ExpenseActivity extends AppCompatActivity {
 
         title.setText(expense.getTitle());
         title.setTextSize(16);
-        title.setTextColor(0xFF20243A);
+        title.setTextColor(getColor(R.color.text_primary));
 
         item.addView(title);
 
@@ -150,7 +150,7 @@ public class ExpenseActivity extends AppCompatActivity {
 
         paidBy.setText("ผู้จ่าย: " + expense.getPaidBy());
         paidBy.setTextSize(14);
-        paidBy.setTextColor(0xFF777777);
+        paidBy.setTextColor(getColor(R.color.text_secondary));
 
         item.addView(paidBy);
 
@@ -164,7 +164,7 @@ public class ExpenseActivity extends AppCompatActivity {
         );
 
         details.setTextSize(12);
-        details.setTextColor(0xFF888888);
+        details.setTextColor(getColor(R.color.text_secondary));
 
         item.addView(details);
 
@@ -177,7 +177,7 @@ public class ExpenseActivity extends AppCompatActivity {
         );
 
         amount.setTextSize(18);
-        amount.setTextColor(0xFF5145CD);
+        amount.setTextColor(getColor(R.color.accent_purple));
 
         item.addView(amount);
 

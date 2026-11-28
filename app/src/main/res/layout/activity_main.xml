@@ -1,74 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:background="#F7F7FB">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="SplitMate"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:textColor="#292940"
-        android:layout_marginTop="16dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="จัดการค่าใช้จ่ายร่วมกันอย่างง่ายดาย"
-        android:textSize="14sp"
-        android:textColor="#77768C"
-        android:layout_marginTop="6dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="กลุ่มของฉัน"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:textColor="#292940"
-        android:layout_marginTop="36dp"/>
-
-    <TextView
-        android:id="@+id/tvEmptyGroups"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="ยังไม่มีกลุ่ม&#10;เริ่มต้นด้วยการสร้างกลุ่มใหม่"
-        android:textSize="16sp"
-        android:textColor="#77768C"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:padding="40dp"
-        android:layout_marginTop="24dp"
-        android:background="#FFFFFF"/>
-
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:fillViewport="true">
-
-        <LinearLayout
-            android:id="@+id/layoutGroupList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"/>
-
-    </ScrollView>
-
-
-    <Button
-        android:id="@+id/btnCreateGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="สร้างกลุ่มใหม่"
-        android:textAllCaps="false"
-        android:layout_marginTop="24dp"/>
-
-</LinearLayout>
+<?xml version='1.0' encoding='UTF-8'?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true" android:background="@color/screen_bg" android:clipToPadding="false" >
+  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp" android:clipToPadding="false">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp" android:background="@drawable/bg_header_gradient" android:layout_marginTop="12dp">
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/ui_041"
+          android:textSize="34sp"
+          android:fontFamily="@font/prompt_semibold"
+          android:textColor="#FFFFFFFF"/>
+      <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/ui_042" android:textSize="14sp" android:textColor="#EEE9FF" android:fontFamily="@font/prompt_regular" android:layout_marginTop="8dp"/>
+    </LinearLayout>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/ui_043" android:textSize="22sp" android:textStyle="bold" android:textColor="@color/text_primary" android:fontFamily="@font/prompt_regular" android:layout_marginTop="28dp"/>
+    <TextView android:id="@+id/tvEmptyGroups" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/ui_044" android:textSize="16sp" android:textColor="@color/text_secondary" android:textAlignment="center" android:gravity="center" android:padding="32dp" android:layout_marginTop="16dp" android:fontFamily="@font/prompt_regular" android:background="@drawable/sm_card"/>
+    <LinearLayout android:id="@+id/layoutGroupList" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingTop="12dp" android:paddingBottom="12dp"/>
+    <Button android:id="@+id/btnLanguage" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/switch_language" android:textAllCaps="false" android:layout_marginTop="24dp" android:minHeight="52dp" android:textSize="15sp" android:fontFamily="@font/prompt_regular" android:elevation="0dp" android:backgroundTint="@color/soft_purple" android:textColor="@color/accent_purple"/>
+    <Button android:id="@+id/btnCreateGroup" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/ui_025" android:textAllCaps="false" android:layout_marginTop="12dp" android:layout_marginBottom="24dp" android:minHeight="52dp" android:textSize="15sp" android:fontFamily="@font/prompt_regular" android:elevation="0dp" android:backgroundTint="@color/accent_purple" android:textColor="@color/contrast_on_purple"/>
+  </LinearLayout>
+</ScrollView>

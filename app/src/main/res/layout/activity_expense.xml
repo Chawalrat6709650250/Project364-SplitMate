@@ -1,120 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#F7F8FC"
-    android:fillViewport="true">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
-
-        <!-- Back Button -->
-        <ImageView
-            android:id="@+id/btn_back"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/ic_arrow_back"
-            android:contentDescription="ย้อนกลับ"
-            android:padding="10dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:tint="#6759D9"
-            android:background="?attr/selectableItemBackgroundBorderless" />
-
-        <!-- Group Name -->
-        <TextView
-            android:id="@+id/tv_group_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="ชื่อกลุ่ม"
-            android:textColor="#20243A"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="จัดการค่าใช้จ่ายของกลุ่ม"
-            android:textColor="#888888"
-            android:textSize="14sp" />
-
-        <!-- Total Expense Card -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:background="#E9E8FF"
-            android:orientation="vertical"
-            android:padding="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ค่าใช้จ่ายทั้งหมด"
-                android:textColor="#555477"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/tv_total_expense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="0.00 บาท"
-                android:textColor="#5145CD"
-                android:textSize="30sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <!-- Expense List Header -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:text="รายการค่าใช้จ่าย"
-            android:textColor="#20243A"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <!-- Empty State -->
-        <TextView
-            android:id="@+id/tv_empty_expense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            android:padding="24dp"
-            android:text="ยังไม่มีค่าใช้จ่าย\nเพิ่มรายการแรกได้เลย"
-            android:textColor="#999999"
-            android:textSize="15sp"
-            android:visibility="visible" />
-
-        <!-- Expense List Container -->
-        <LinearLayout
-            android:id="@+id/expense_list_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-
-        <!-- Add Expense Button -->
-        <Button
-            android:id="@+id/btn_add_expense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="20dp"
-            android:backgroundTint="#6558D3"
-            android:text="+ เพิ่มค่าใช้จ่าย"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp" />
-
+<?xml version='1.0' encoding='UTF-8'?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/screen_bg" android:fillViewport="true" android:clipToPadding="false" >
+  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp" android:clipToPadding="false">
+    <!-- Back Button -->
+    <ImageView android:id="@+id/btn_back" android:layout_width="48dp" android:layout_height="48dp" android:layout_marginTop="16dp" android:src="@drawable/ic_arrow_back" android:contentDescription="@string/ui_001" android:padding="12dp" android:clickable="true" android:focusable="true" android:tint="@color/accent_purple" android:background="?attr/selectableItemBackgroundBorderless"/>
+    <!-- Group Name -->
+    <TextView android:id="@+id/tv_group_name" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="@string/ui_003" android:textColor="@color/text_primary" android:textSize="29sp" android:textStyle="bold"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="@string/ui_029" android:textColor="@color/text_secondary" android:textSize="14sp"/>
+    <!-- Total Expense Card -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:background="@drawable/sm_hero" android:orientation="vertical" android:padding="24dp">
+      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ui_017" android:textColor="#FFFFFFFF" android:textSize="15sp"/>
+      <TextView android:id="@+id/tv_total_expense" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="@string/ui_018" android:textColor="#FFFFFFFF" android:textSize="30sp" android:textStyle="bold"/>
     </LinearLayout>
-
+    <!-- Expense List Header -->
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="28dp" android:text="@string/ui_030" android:textColor="@color/text_primary" android:textSize="20sp" android:textStyle="bold"/>
+    <!-- Empty State -->
+    <TextView android:id="@+id/tv_empty_expense" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="30dp" android:gravity="center" android:padding="32dp" android:text="@string/ui_031" android:textColor="@color/text_secondary" android:textSize="15sp" android:visibility="visible" android:background="@drawable/sm_card"/>
+    <!-- Expense List Container -->
+    <LinearLayout android:id="@+id/expense_list_container" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical"/>
+    <!-- Add Expense Button -->
+    <Button android:id="@+id/btn_add_expense" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:layout_marginBottom="20dp" android:backgroundTint="@color/accent_purple" android:text="@string/ui_032" android:textAllCaps="false" android:textColor="@color/contrast_on_purple" android:textSize="15sp" android:minHeight="52dp" android:fontFamily="sans" android:elevation="0dp"/>
+  </LinearLayout>
 </ScrollView>

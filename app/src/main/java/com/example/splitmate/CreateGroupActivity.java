@@ -21,13 +21,12 @@ public class CreateGroupActivity extends AppCompatActivity {
 
         ImageView btnBack = findViewById(R.id.btnBack);
 
-        btnBack.setOnClickListener(v -> {
-            finish();
-        });
+        btnBack.setOnClickListener(v -> NavigationGuard.confirmExit(this, etGroupName));
 
 
         etGroupName = findViewById(R.id.etGroupName);
         btnSaveGroup = findViewById(R.id.btnSaveGroup);
+        NavigationGuard.attach(this, etGroupName);
 
         btnSaveGroup.setOnClickListener(v -> {
 
@@ -55,6 +54,7 @@ public class CreateGroupActivity extends AppCompatActivity {
 
 
             startActivity(intent);
+            finish(); // Prevent duplicate creation when navigating back from details
         });
     }
 }

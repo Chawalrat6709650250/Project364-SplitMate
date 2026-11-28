@@ -23,11 +23,11 @@ import java.util.Map;
 
 public class BalanceActivity extends AppCompatActivity {
 
-    private static final int COLOR_TEXT = Color.parseColor("#292940");
-    private static final int COLOR_SUB = Color.parseColor("#77768C");
+    private int COLOR_TEXT;
+    private int COLOR_SUB;
     private static final int COLOR_GREEN = Color.parseColor("#2E8B57");
-    private static final int COLOR_RED = Color.parseColor("#D95C69");
-    private static final int COLOR_PURPLE = Color.parseColor("#6558D3");
+    private int COLOR_RED;
+    private int COLOR_PURPLE;
 
     private int groupId;
 
@@ -46,6 +46,10 @@ public class BalanceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_balance);
+        COLOR_TEXT = getColor(R.color.text_primary);
+        COLOR_SUB = getColor(R.color.text_secondary);
+        COLOR_PURPLE = getColor(R.color.accent_purple);
+        COLOR_RED = getColor(R.color.danger_red);
 
         groupId = getIntent().getIntExtra("group_id", -1);
         String groupName = getIntent().getStringExtra("group_name");
@@ -318,7 +322,7 @@ public class BalanceActivity extends AppCompatActivity {
         LinearLayout card = new LinearLayout(this);
         card.setOrientation(LinearLayout.VERTICAL);
         card.setPadding(40, 32, 40, 32);
-        card.setBackground(rounded(Color.WHITE));
+        card.setBackground(rounded(getColor(R.color.surface_bg)));
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,

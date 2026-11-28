@@ -113,6 +113,29 @@ public class SplitActivity extends AppCompatActivity {
         btnSave.setOnClickListener(v -> saveSplit());
 
         onMethodChanged();
+        if (savedInstanceState != null) {
+            boolean custom = savedInstanceState.getBoolean("draft_custom_split", false);
+            isUpdatingProgrammatically = true;
+            if (custom) rbCustom.setChecked(true); else rbEqual.setChecked(true);
+            for (int i = 0; i < rows.size(); i++) {
+                MemberRow row = rows.get(i);
+                row.checkBox.setChecked(savedInstanceState.getBoolean("draft_checked_" + i, true));
+                row.etAmount.setText(savedInstanceState.getString("draft_amount_" + i, ""));
+            }
+            isUpdatingProgrammatically = false;
+            onMethodChanged();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean("draft_custom_split", rbCustom != null && rbCustom.isChecked());
+        for (int i = 0; i < rows.size(); i++) {
+            MemberRow row = rows.get(i);
+            outState.putBoolean("draft_checked_" + i, row.checkBox.isChecked());
+            outState.putString("draft_amount_" + i, row.etAmount.getText().toString());
+        }
+        super.onSaveInstanceState(outState);
     }
 
     private Expense findExpense(int groupId, int expenseId) {
@@ -144,7 +167,7 @@ public class SplitActivity extends AppCompatActivity {
             row.setOrientation(LinearLayout.HORIZONTAL);
             row.setGravity(Gravity.CENTER_VERTICAL);
             row.setPadding(16, 8, 16, 8);
-            row.setBackgroundColor(0xFFFFFFFF);
+            row.setBackgroundColor(getColor(R.color.surface_bg));
 
             LinearLayout.LayoutParams rowParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
@@ -155,7 +178,7 @@ public class SplitActivity extends AppCompatActivity {
             CheckBox checkBox = new CheckBox(this);
             checkBox.setText(name);
             checkBox.setTextSize(16);
-            checkBox.setTextColor(0xFF20243A);
+            checkBox.setTextColor(getColor(R.color.text_primary));
             checkBox.setChecked(true); // ค่าเริ่มต้น: ทุกคนร่วมหาร
 
             EditText etAmount = new EditText(this);
@@ -167,8 +190,8 @@ public class SplitActivity extends AppCompatActivity {
             etAmount.setEms(5);
 
             TextView tvUnit = new TextView(this);
-            tvUnit.setText(" บาท");
-            tvUnit.setTextColor(0xFF777777);
+            tvUnit.setText(UiText.tr(this, " บาท", " THB"));
+            tvUnit.setTextColor(getColor(R.color.text_secondary));
 
             row.addView(checkBox, new LinearLayout.LayoutParams(
                     0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));

@@ -86,10 +86,10 @@ public class GroupDetailActivity extends AppCompatActivity {
             AlertDialog dialog = new AlertDialog.Builder(
                     GroupDetailActivity.this
             )
-                    .setTitle("แก้ไขชื่อกลุ่ม")
+                    .setTitle(UiText.tr(this, "แก้ไขชื่อกลุ่ม", "Edit group name"))
                     .setView(input)
-                    .setPositiveButton("บันทึก", null)
-                    .setNegativeButton("ยกเลิก", null)
+                    .setPositiveButton(UiText.tr(this, "บันทึก", "Save"), null)
+                    .setNegativeButton(UiText.tr(this, "ยกเลิก", "Cancel"), null)
                     .create();
 
             dialog.setOnShowListener(d -> {
@@ -123,9 +123,9 @@ public class GroupDetailActivity extends AppCompatActivity {
         btnDeleteGroup.setOnClickListener(v -> {
 
             new AlertDialog.Builder(this)
-                    .setTitle("ลบกลุ่ม")
-                    .setMessage("ต้องการลบกลุ่มนี้หรือไม่?")
-                    .setPositiveButton("ลบ", (dialog, which) -> {
+                    .setTitle(UiText.tr(this, "ลบกลุ่ม", "Delete group"))
+                    .setMessage(UiText.tr(this, "ต้องการลบกลุ่มนี้หรือไม่?", "Delete this group?"))
+                    .setPositiveButton(UiText.tr(this, "ลบ", "Delete"), (dialog, which) -> {
 
                         if (groupId == -1) {
                             Toast.makeText(
@@ -159,7 +159,7 @@ public class GroupDetailActivity extends AppCompatActivity {
                             ).show();
                         }
                     })
-                    .setNegativeButton("ยกเลิก", null)
+                    .setNegativeButton(UiText.tr(this, "ยกเลิก", "Cancel"), null)
                     .show();
         });
 
@@ -167,7 +167,10 @@ public class GroupDetailActivity extends AppCompatActivity {
         String groupName =
                 getIntent().getStringExtra("group_name");
 
-        if (groupName != null && !groupName.isEmpty()) {
+        GroupStore.Group currentGroup = GroupStore.getGroup(groupId);
+        if (currentGroup != null) {
+            tvGroupName.setText(currentGroup.name);
+        } else if (groupName != null && !groupName.isEmpty()) {
             tvGroupName.setText(groupName);
         }
 
@@ -225,7 +228,7 @@ public class GroupDetailActivity extends AppCompatActivity {
 
         layoutMemberList.removeAllViews();
 
-        tvMemberCount.setText(members.size() + " คน");
+        tvMemberCount.setText(UiText.tr(this, "สมาชิก ", "Members: ") + members.size() + UiText.tr(this, " คน", ""));
 
         if (members.isEmpty()) {
             tvEmptyMembers.setVisibility(View.VISIBLE);
@@ -240,12 +243,12 @@ public class GroupDetailActivity extends AppCompatActivity {
             row.setOrientation(LinearLayout.HORIZONTAL);
             row.setGravity(android.view.Gravity.CENTER_VERTICAL);
             row.setPadding(24, 20, 24, 20);
-            row.setBackgroundColor(Color.WHITE);
+            row.setBackgroundResource(R.drawable.sm_card);
 
             TextView tvName = new TextView(this);
             tvName.setText(name);
             tvName.setTextSize(16);
-            tvName.setTextColor(Color.parseColor("#292940"));
+            tvName.setTextColor(getColor(R.color.text_primary));
 
             LinearLayout.LayoutParams nameParams =
                     new LinearLayout.LayoutParams(
@@ -257,7 +260,7 @@ public class GroupDetailActivity extends AppCompatActivity {
             row.addView(tvName, nameParams);
 
             Button btnRemove = new Button(this);
-            btnRemove.setText("ลบ");
+            btnRemove.setText(UiText.tr(this, "ลบ", "Delete"));
 
             row.addView(btnRemove);
 
@@ -274,9 +277,9 @@ public class GroupDetailActivity extends AppCompatActivity {
                 }
 
                 new AlertDialog.Builder(this)
-                        .setTitle("ลบสมาชิก")
-                        .setMessage("ต้องการลบ " + name + " หรือไม่?")
-                        .setPositiveButton("ลบ", (dialog, which) -> {
+                        .setTitle(UiText.tr(this, "ลบสมาชิก", "Delete member"))
+                        .setMessage(UiText.tr(this, "ต้องการลบ ", "Delete ") + name + UiText.tr(this, " หรือไม่?", "?"))
+                        .setPositiveButton(UiText.tr(this, "ลบ", "Delete"), (dialog, which) -> {
 
                             if (GroupStore.removeMember(groupId, name)) {
                                 members.clear();
@@ -291,7 +294,7 @@ public class GroupDetailActivity extends AppCompatActivity {
                             }
 
                         })
-                        .setNegativeButton("ยกเลิก", null)
+                        .setNegativeButton(UiText.tr(this, "ยกเลิก", "Cancel"), null)
                         .show();
             });
 

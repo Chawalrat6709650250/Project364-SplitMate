@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+    <color name="screen_bg">#081A17</color>
+    <color name="surface_bg">#122A25</color>
+
+
+    <color name="text_primary">#ECFFF7</color>
+    <color name="text_secondary">#A3C2B6</color>
+
+
+    <color name="accent_purple">#27D3A3</color>
+    <color name="soft_purple">#193F33</color>
+    <color name="contrast_on_purple">#08241C</color>
+
+
+    <color name="outline_color">#24473D</color>
+
+
+    <color name="danger_red">#FF8290</color>
+    <color name="alert_surface">#402722</color>
+    <color name="alert_text">#FFB4A8</color>
+
+
+    <color name="success_surface">#123E30</color>
+    <color name="success_text">#7CE8BB</color>
+
+
+    <color name="hero_start">#087F62</color>
+    <color name="hero_end">#075446</color>
+
+</resources>

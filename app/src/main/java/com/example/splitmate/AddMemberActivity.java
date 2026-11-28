@@ -24,7 +24,8 @@ public class AddMemberActivity extends AppCompatActivity {
         btnSaveMember = findViewById(R.id.btnSaveMember);
         btnBackAddMember = findViewById(R.id.btnBackAddMember);
 
-        btnBackAddMember.setOnClickListener(v -> finish());
+        btnBackAddMember.setOnClickListener(v -> NavigationGuard.confirmExit(this, etMemberName));
+        NavigationGuard.attach(this, etMemberName);
 
         btnSaveMember.setOnClickListener(v -> {
 

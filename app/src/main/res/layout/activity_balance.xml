@@ -1,200 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#F7F7FB">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="16dp">
-
-            <ImageView
-                android:id="@+id/btnBackBalance"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_arrow_back"
-                android:contentDescription="ย้อนกลับ"
-                android:padding="10dp"
-                android:clickable="true"
-                android:tint="#6759D9"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:layout_marginEnd="12dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="สรุปยอด &amp; คืนเงิน"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="#292940"/>
-
-        </LinearLayout>
-
-        <!-- การ์ดสรุปยอดรวม -->
-        <LinearLayout
-            android:id="@+id/cardSummary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp"
-            android:layout_marginTop="16dp">
-
-            <TextView
-                android:id="@+id/tvBalanceGroupName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="#E4E1FF"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="ค่าใช้จ่ายทั้งหมด"
-                android:textSize="14sp"
-                android:textColor="#E4E1FF"
-                android:layout_marginTop="12dp"/>
-
-            <TextView
-                android:id="@+id/tvGrandTotal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="0.00 บาท"
-                android:textSize="32sp"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"/>
-
-            <TextView
-                android:id="@+id/tvSummaryInfo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="#E4E1FF"
-                android:layout_marginTop="4dp"/>
-
-            <ProgressBar
-                android:id="@+id/progressSettled"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:layout_marginTop="16dp"
-                android:max="100"
-                android:progressTint="#7EE2A8"
-                android:progressBackgroundTint="#8F85E6"/>
-
-            <TextView
-                android:id="@+id/tvSettledProgress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:textColor="#FFFFFF"
-                android:layout_marginTop="6dp"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvUnsplitWarning"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="#B4462F"
-            android:background="#FFF1EC"
-            android:padding="12dp"
-            android:layout_marginTop="16dp"
-            android:visibility="gone"/>
-
-        <!-- ขั้นที่ 1: ใครออกเงินไปเท่าไร -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="รายชื่อทั้งหมด"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#292940"
-            android:layout_marginTop="28dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="เทียบเงินที่ออกไปจริง กับส่วนที่ต้องรับผิดชอบของแต่ละคน"
-            android:textSize="13sp"
-            android:textColor="#77768C"
-            android:layout_marginTop="4dp"/>
-
-        <LinearLayout
-            android:id="@+id/layoutBalanceList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="12dp"/>
-
-        <!-- ขั้นที่ 2: ต้องโอนให้ใคร -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ต้องโอนคืนให้ใคร"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#292940"
-            android:layout_marginTop="28dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="โอนตามนี้แล้วกด &quot;โอนแล้ว&quot; ยอดจะเคลียร์อัตโนมัติ"
-            android:textSize="13sp"
-            android:textColor="#77768C"
-            android:layout_marginTop="4dp"/>
-
-        <TextView
-            android:id="@+id/tvAllSettled"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="🎉 ไม่มีรายการค้าง ทุกคนเคลียร์ยอดครบแล้ว"
-            android:textSize="16sp"
-            android:textColor="#2E8B57"
-            android:gravity="center"
-            android:padding="28dp"
-            android:layout_marginTop="12dp"
-            android:background="#E8F6EE"
-            android:visibility="gone"/>
-
-        <LinearLayout
-            android:id="@+id/layoutPendingList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="12dp"/>
-
-        <!-- ประวัติการโอน -->
-        <TextView
-            android:id="@+id/tvPaidHeader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="โอนแล้ว"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#292940"
-            android:layout_marginTop="28dp"/>
-
-        <LinearLayout
-            android:id="@+id/layoutPaidList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="24dp"/>
-
+<?xml version='1.0' encoding='UTF-8'?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/screen_bg" android:fillViewport="true" android:clipToPadding="false" >
+  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp" android:clipToPadding="false">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="16dp">
+      <ImageView android:id="@+id/btnBackBalance" android:layout_width="48dp" android:layout_height="48dp" android:src="@drawable/ic_arrow_back" android:contentDescription="@string/ui_001" android:padding="12dp" android:clickable="true" android:tint="@color/accent_purple" android:focusable="true" android:background="?attr/selectableItemBackgroundBorderless" android:layout_marginEnd="12dp"/>
+      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ui_016" android:textSize="29sp" android:textStyle="bold" android:textColor="@color/text_primary"/>
     </LinearLayout>
-
+    <!-- การ์ดสรุปยอดรวม -->
+    <LinearLayout android:id="@+id/cardSummary" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp" android:layout_marginTop="16dp" android:background="@drawable/sm_hero">
+      <TextView android:id="@+id/tvBalanceGroupName" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="14sp" android:textColor="#FFFFFFFF"/>
+      <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/ui_017" android:textSize="14sp" android:textColor="#FFFFFFFF" android:layout_marginTop="12dp"/>
+      <TextView android:id="@+id/tvGrandTotal" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/ui_018" android:textSize="32sp" android:textStyle="bold" android:textColor="#FFFFFFFF"/>
+      <TextView android:id="@+id/tvSummaryInfo" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="14sp" android:textColor="#FFFFFFFF" android:layout_marginTop="4dp"/>
+      <ProgressBar android:id="@+id/progressSettled" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="8dp" android:layout_marginTop="16dp" android:max="100" android:progressTint="#FFFFFFFF" android:progressBackgroundTint="#66FFFFFF"/>
+      <TextView android:id="@+id/tvSettledProgress" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13sp" android:textColor="#FFFFFFFF" android:layout_marginTop="6dp"/>
+    </LinearLayout>
+    <TextView android:id="@+id/tvUnsplitWarning" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="14sp" android:textColor="@color/alert_text" android:background="@drawable/sm_alert" android:padding="12dp" android:layout_marginTop="16dp" android:visibility="gone"/>
+    <!-- ขั้นที่ 1: ใครออกเงินไปเท่าไร -->
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/ui_019" android:textSize="20sp" android:textStyle="bold" android:textColor="@color/text_primary" android:layout_marginTop="28dp"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/ui_020" android:textSize="13sp" android:textColor="@color/text_secondary" android:layout_marginTop="4dp"/>
+    <LinearLayout android:id="@+id/layoutBalanceList" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginTop="12dp"/>
+    <!-- ขั้นที่ 2: ต้องโอนให้ใคร -->
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/ui_021" android:textSize="20sp" android:textStyle="bold" android:textColor="@color/text_primary" android:layout_marginTop="28dp"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/ui_022" android:textSize="13sp" android:textColor="@color/text_secondary" android:layout_marginTop="4dp"/>
+    <TextView android:id="@+id/tvAllSettled" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/ui_023" android:textSize="16sp" android:textColor="@color/success_text" android:gravity="center" android:padding="28dp" android:layout_marginTop="12dp" android:background="@drawable/sm_success" android:visibility="gone"/>
+    <LinearLayout android:id="@+id/layoutPendingList" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginTop="12dp"/>
+    <!-- ประวัติการโอน -->
+    <TextView android:id="@+id/tvPaidHeader" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/ui_024" android:textSize="20sp" android:textStyle="bold" android:textColor="@color/text_primary" android:layout_marginTop="28dp"/>
+    <LinearLayout android:id="@+id/layoutPaidList" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginTop="12dp" android:layout_marginBottom="24dp"/>
+  </LinearLayout>
 </ScrollView>

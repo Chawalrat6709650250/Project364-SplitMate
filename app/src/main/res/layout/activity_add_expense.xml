@@ -1,152 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#F7F8FC"
-    android:fillViewport="true">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
-
-        <ImageView
-            android:id="@+id/btn_back_add"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/ic_arrow_back"
-            android:contentDescription="ย้อนกลับ"
-            android:padding="10dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:tint="#6759D9"
-            android:background="?attr/selectableItemBackgroundBorderless" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="เพิ่มค่าใช้จ่าย"
-            android:textColor="#20243A"
-            android:textSize="26sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_add_group_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="ชื่อกลุ่ม"
-            android:textColor="#888888"
-            android:textSize="14sp" />
-
-        <!-- Expense Name -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:text="ชื่อรายการ"
-            android:textColor="#292940"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/et_expense_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="เช่น ค่าอาหารเย็น"
-            android:inputType="textCapSentences"
-            android:singleLine="true" />
-
-        <!-- Amount -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="จำนวนเงิน (บาท)"
-            android:textColor="#292940"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/et_expense_amount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="0.00"
-            android:inputType="numberDecimal"
-            android:singleLine="true" />
-
-        <!-- Category -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="หมวดหมู่"
-            android:textColor="#292940"
-            android:textStyle="bold" />
-
-        <Spinner
-            android:id="@+id/spinner_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
-
-        <!-- Paid By -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="ผู้จ่าย"
-            android:textColor="#292940"
-            android:textStyle="bold" />
-
-        <Spinner
-            android:id="@+id/spinner_paid_by"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
-
-        <!-- Date -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="วันที่"
-            android:textColor="#292940"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/btn_select_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="#E9E8FF"
-            android:text="เลือกวันที่"
-            android:textAllCaps="false"
-            android:textColor="#5145CD" />
-
-        <TextView
-            android:id="@+id/tv_expense_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="6dp"
-            android:textColor="#5145CD"
-            android:textSize="14sp" />
-
-        <!-- Save -->
-        <Button
-            android:id="@+id/btn_save_expense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="24dp"
-            android:backgroundTint="#6558D3"
-            android:text="บันทึกค่าใช้จ่าย"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp" />
-
-    </LinearLayout>
-
+<?xml version='1.0' encoding='UTF-8'?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/screen_bg" android:fillViewport="true" android:clipToPadding="false" >
+  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp" android:clipToPadding="false">
+    <ImageView android:id="@+id/btn_back_add" android:layout_width="48dp" android:layout_height="48dp" android:layout_marginTop="16dp" android:src="@drawable/ic_arrow_back" android:contentDescription="@string/ui_001" android:padding="12dp" android:clickable="true" android:focusable="true" android:tint="@color/accent_purple" android:background="?attr/selectableItemBackgroundBorderless"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="@string/ui_002" android:textColor="@color/text_primary" android:textSize="29sp" android:textStyle="bold"/>
+    <TextView android:id="@+id/tv_add_group_name" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="@string/ui_003" android:textColor="@color/text_secondary" android:textSize="14sp"/>
+    <!-- Expense Name -->
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="28dp" android:text="@string/ui_004" android:textColor="@color/text_primary" android:textStyle="bold"/>
+    <EditText android:id="@+id/et_expense_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/ui_005" android:inputType="textCapSentences" android:singleLine="true" android:background="@drawable/sm_input" android:padding="16dp" android:textColor="@color/text_primary" android:textColorHint="@color/text_secondary" android:minHeight="56dp" android:textSize="16sp" android:selectAllOnFocus="false"/>
+    <!-- Amount -->
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="@string/ui_006" android:textColor="@color/text_primary" android:textStyle="bold"/>
+    <EditText android:id="@+id/et_expense_amount" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/ui_007" android:inputType="numberDecimal" android:singleLine="true" android:imeOptions="flagNoExtractUi|actionDone" android:background="@drawable/sm_input" android:padding="16dp" android:textColor="@color/text_primary" android:textColorHint="@color/text_secondary" android:minHeight="56dp" android:textSize="16sp" android:selectAllOnFocus="false"/>
+    <!-- Category -->
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="@string/ui_008" android:textColor="@color/text_primary" android:textStyle="bold"/>
+    <Spinner android:id="@+id/spinner_category" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp"/>
+    <!-- Paid By -->
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="@string/ui_009" android:textColor="@color/text_primary" android:textStyle="bold"/>
+    <Spinner android:id="@+id/spinner_paid_by" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp"/>
+    <!-- Date -->
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="@string/ui_010" android:textColor="@color/text_primary" android:textStyle="bold"/>
+    <Button android:id="@+id/btn_select_date" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:backgroundTint="@color/soft_purple" android:text="@string/ui_011" android:textAllCaps="false" android:textColor="@color/accent_purple" android:minHeight="52dp" android:textSize="15sp" android:fontFamily="sans" android:elevation="0dp"/>
+    <TextView android:id="@+id/tv_expense_date" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:layout_marginTop="6dp" android:textColor="@color/accent_purple" android:textSize="14sp"/>
+    <!-- Save -->
+    <Button android:id="@+id/btn_save_expense" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="32dp" android:layout_marginBottom="24dp" android:backgroundTint="@color/accent_purple" android:text="@string/ui_012" android:textAllCaps="false" android:textColor="@color/contrast_on_purple" android:textSize="15sp" android:minHeight="52dp" android:fontFamily="sans" android:elevation="0dp"/>
+  </LinearLayout>
 </ScrollView>
